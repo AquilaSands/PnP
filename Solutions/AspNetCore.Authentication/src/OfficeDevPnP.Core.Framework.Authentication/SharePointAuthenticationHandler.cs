@@ -47,6 +47,9 @@
             // Sets up the SharePoint configuration based on the middleware options.
             var spContextProvider = SharePointContextProvider.GetInstance(
                 SharePointConfiguration.GetFromSharePointAuthenticationOptions(Options));
+            
+            // Ensure session is loaded asynchronously
+            await Context.Session.LoadAsync();
 
             switch (SharePointContextProvider.CheckRedirectionStatus(Context, out Uri redirectUrl))
             {
@@ -164,7 +167,7 @@
             }
 
             if (userIsAnonymous)
-            {
+            {                
                 await HandleRemoteAuthenticateAsync();
             }
 
